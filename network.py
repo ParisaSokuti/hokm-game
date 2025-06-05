@@ -119,3 +119,15 @@ class NetworkManager:
             await websocket.send(json.dumps(message))
         except websockets.ConnectionClosed:
             print("Connection closed while sending message")
+
+    @staticmethod
+    async def receive_message(websocket):
+        try:
+            message = await websocket.recv()
+            return json.loads(message)
+        except websockets.ConnectionClosed:
+            print("Connection closed while receiving message")
+            return None
+        except json.JSONDecodeError:
+            print("Invalid JSON received")
+            return None
